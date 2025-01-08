@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('articles.urls')), #Головна сторінка
     path('comments/', include('comments.urls')),  # Маршрути для коментарів
+    path('accounts/', include('accounts.urls')),  # Маршрути для акаунтів
 ]
