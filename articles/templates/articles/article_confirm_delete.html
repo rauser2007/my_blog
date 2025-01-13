@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Видалити статтю{% endblock %}
+
+{% block content %}
+<h1>Видалити статтю?</h1>
+<p>Ви впевнені, що хочете видалити "{{ article.title }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Так</button>
+    <a href="{{ article.get_absolute_url }}">Ні</a>
+</form>
+{% endblock %}

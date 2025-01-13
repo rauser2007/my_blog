@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+<article>
+    <h1>{{ article.title }}</h1>
+    <p>Автор: {{ article.author }}</p>
+    <p>Опубліковано: {{ article.created_at }}</p>
+    <div>{{ article.content }}</div>
+</article>
+
+<!-- Секція коментарів -->
+<section>
+    <h2>Коментарі</h2>
+    {% for comment in article.comments.all %}
+        <div>
+            <p><strong>{{ comment.user }}</strong>: {{ comment.content }}</p>
+            <p>{{ comment.created_at }}</p>
+        </div>
+    {% empty %}
+        <p>Немає коментарів.</p>
+    {% endfor %}
+</section>
+{% endblock %}

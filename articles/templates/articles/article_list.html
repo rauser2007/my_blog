@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Список статей{% endblock %}
+
+{% block content %}
+<h1>Список статей</h1>
+<ul>
+    {% for article in articles %}
+        <li>
+            <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+            <p>Автор: {{ article.author }}</p>
+            <p>Категорія: {{ article.category.name }}</p>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
