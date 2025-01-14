@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Видалити коментар{% endblock %}
+
+{% block content %}
+<h1>Видалити коментар?</h1>
+<p>Ви впевнені, що хочете видалити цей коментар?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Так</button>
+    <a href="{{ comment.article.get_absolute_url }}">Ні</a>
+</form>
+{% endblock %}

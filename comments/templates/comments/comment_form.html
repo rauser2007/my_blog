@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Новий коментар{% endblock %}
+
+{% block content %}
+<h1>Новий коментар</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Додати</button>
+</form>
+{% endblock %}
