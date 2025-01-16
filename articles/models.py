@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -16,19 +17,18 @@ class Tag(models.Model):
         return self.name
 
 class Article(models.Model):
-    STATUS_CHOICES = [
-        ('draft', 'Чернетка'),
-        ('published', 'Опублікована'),
-    ]
-
     title = models.CharField(max_length=200)
     content = models.TextField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='articles')
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='articles')
-    tags = models.ManyToManyField(Tag, blank=True, related_name='articles')
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=10, choices=[('draft', 'Draft'), ('published', 'Published')], default='draft')
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    tags = models.ManyToManyField('Tag', blank=True)
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='articles'
+    )
 
     def __str__(self):
         return self.title
