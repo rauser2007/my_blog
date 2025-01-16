@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Профіль{% endblock %}
+
+{% block content %}
+<h1>Профіль</h1>
+<p>Ім'я користувача: {{ user.username }}</p>
+<p>Email: {{ user.email }}</p>
+<p>Біографія: {{ user.bio }}</p>
+<a href="#">Редагувати</a>
+{% endblock %}
