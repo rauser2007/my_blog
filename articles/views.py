@@ -36,7 +36,7 @@ class ArticleDetailView(DetailView):
             comment.article = self.object
             comment.user = request.user
             comment.save()
-            return redirect('article-detail', pk=self.object.pk)
+            return redirect('articles:article-detail', pk=self.object.pk)
         return self.get(request, *args, **kwargs)
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):

@@ -17,6 +17,20 @@
         <div>
             <p><strong>{{ comment.user }}</strong>: {{ comment.content }}</p>
             <p>{{ comment.created_at|date:"d M Y H:i" }}</p>
+
+            {% if user.is_authenticated %}
+                {% if user == comment.user or user.is_superuser %}
+                    <form method="post" action="{% url 'comments:comment-delete' comment.pk %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Ви впевнені, що хочете видалити цей коментар?');">
+                            Видалити
+                        </button>
+                    </form>
+                    <a href="{% url 'comments:comment-update' comment.pk %}" class="btn btn-warning">
+                        Редагувати
+                    </a>
+                {% endif %}
+            {% endif %}
         </div>
     {% empty %}
         <p>Немає коментарів.</p>
@@ -26,13 +40,13 @@
 {% if user.is_authenticated %}
 <section>
     <h3>Додати коментар</h3>
-    <form method="post" action="{% url 'article-detail' article.pk %}">
+    <form method="post" action="{% url 'articles:article-detail' article.pk %}">
         {% csrf_token %}
         {{ comment_form.as_p }}
         <button type="submit" class="btn btn-primary">Додати</button>
     </form>
 </section>
 {% else %}
-<p>Ви повинні <a href="{% url 'login' %}">увійти</a>, щоб залишити коментар.</p>
+<p>Ви повинні <a href="{% url 'accounts:login' %}">увійти</a>, щоб залишити коментар.</p>
 {% endif %}
 {% endblock %}
