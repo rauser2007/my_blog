@@ -3,14 +3,26 @@
 {% block title %}Список статей{% endblock %}
 
 {% block content %}
-<h1>Список статей</h1>
-<ul>
-    {% for article in articles %}
-        <li>
-            <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
-            <p>Автор: {{ article.author }}</p>
-            <p>Категорія: {{ article.category.name }}</p>
-        </li>
-    {% endfor %}
-</ul>
+<div class="container mt-4">
+    <h1 class="mb-4 text-center">📜 Список статей</h1>
+    <div class="row">
+        {% for article in articles %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{{ article.get_absolute_url }}" class="text-decoration-none text-primary">
+                                {{ article.title }}
+                            </a>
+                        </h5>
+                        <p class="card-text text-muted">🖊 Автор: {{ article.author }}</p>
+                        <span class="badge bg-info text-dark">📂 {{ article.category.name }}</span>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center">Поки що немає статей 😞</p>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

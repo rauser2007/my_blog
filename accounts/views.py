@@ -3,6 +3,7 @@ from django.views.generic import CreateView, DetailView
 from .models import CustomUser
 from django.urls import reverse_lazy
 import logging
+from .forms import CustomUserCreationForm
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +22,7 @@ class CustomLoginView(LoginView):
 
 class SignUpView(CreateView):
     model = CustomUser
-    fields = ['username', 'password', 'email']
+    form_class = CustomUserCreationForm
     template_name = 'accounts/signup.html'
     success_url = reverse_lazy('accounts:login')
 
