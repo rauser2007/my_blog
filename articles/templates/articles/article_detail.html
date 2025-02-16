@@ -3,50 +3,59 @@
 {% block title %}{{ article.title }}{% endblock %}
 
 {% block content %}
-<article>
-    <h1>{{ article.title }}</h1>
-    <p>Автор: {{ article.author }}</p>
-    <p>Опубліковано: {{ article.created_at }}</p>
-    <div>{{ article.content }}</div>
-</article>
-
-<!-- Секція коментарів -->
-<section>
-    <h2>Коментарі</h2>
-    {% for comment in article.comments.all %}
-        <div>
-            <p><strong>{{ comment.user }}</strong>: {{ comment.content }}</p>
-            <p>{{ comment.created_at|date:"d M Y H:i" }}</p>
-
-            {% if user.is_authenticated %}
-                {% if user == comment.user or user.is_superuser %}
-                    <form method="post" action="{% url 'comments:comment-delete' comment.pk %}" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Ви впевнені, що хочете видалити цей коментар?');">
-                            Видалити
-                        </button>
-                    </form>
-                    <a href="{% url 'comments:comment-update' comment.pk %}" class="btn btn-warning">
-                        Редагувати
-                    </a>
-                {% endif %}
-            {% endif %}
+<div class="container mt-4">
+    <!-- Карточка статті -->
+    <div class="card shadow-lg border-0">
+        <div class="card-body">
+            <h1 class="card-title text-center fw-bold">{{ article.title }}</h1>
+            <p class="text-muted text-center">✍ Автор: <strong>{{ article.author }}</strong></p>
+            <p class="text-muted text-center">🕒 Опубліковано: {{ article.created_at|date:"d M Y, H:i" }}</p>
+            <hr>
+            <div class="fs-5">{{ article.content }}</div>
         </div>
-    {% empty %}
-        <p>Немає коментарів.</p>
-    {% endfor %}
-</section>
+    </div>
 
-{% if user.is_authenticated %}
-<section>
-    <h3>Додати коментар</h3>
-    <form method="post" action="{% url 'articles:article-detail' article.pk %}">
-        {% csrf_token %}
-        {{ comment_form.as_p }}
-        <button type="submit" class="btn btn-primary">Додати</button>
-    </form>
-</section>
-{% else %}
-<p>Ви повинні <a href="{% url 'accounts:login' %}">увійти</a>, щоб залишити коментар.</p>
-{% endif %}
+    <!-- Секція коментарів -->
+    <div class="mt-5">
+        <h3 class="mb-3">💬 Коментарі</h3>
+        {% for comment in article.comments.all %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <p class="fw-bold mb-1">{{ comment.user }}:</p>
+                <p class="mb-1">{{ comment.content }}</p>
+                <p class="text-muted small">{{ comment.created_at|date:"d M Y, H:i" }}</p>
+                {% if user.is_authenticated %}
+                    {% if user == comment.user or user.is_superuser %}
+                        <div class="d-flex">
+                            <a href="{% url 'comments:comment-update' comment.pk %}" class="btn btn-sm btn-warning me-2">✏ Редагувати</a>
+                            <form method="post" action="{% url 'comments:comment-delete' comment.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Ви впевнені, що хочете видалити цей коментар?');">🗑 Видалити</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-muted">😔 Немає коментарів. Будьте першим!</p>
+        {% endfor %}
+    </div>
+
+    <!-- Форма додавання коментаря -->
+    {% if user.is_authenticated %}
+    <div class="mt-4">
+        <h4>➕ Додати коментар</h4>
+        <form method="post" action="{% url 'articles:article-detail' article.pk %}" class="card p-3 shadow-sm">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ comment_form.content }}
+            </div>
+            <button type="submit" class="btn btn-primary">💾 Додати</button>
+        </form>
+    </div>
+    {% else %}
+    <p class="text-muted mt-3">🔒 Ви повинні <a href="{% url 'accounts:login' %}">увійти</a>, щоб залишити коментар.</p>
+    {% endif %}
+</div>
 {% endblock %}

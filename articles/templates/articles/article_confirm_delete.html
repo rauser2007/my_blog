@@ -1,13 +1,28 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Видалити статтю{% endblock %}
+{% block title %}Видалення статті{% endblock %}
 
 {% block content %}
-<h1>Видалити статтю?</h1>
-<p>Ви впевнені, що хочете видалити "{{ article.title }}"?</p>
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Так</button>
-    <a href="{{ article.get_absolute_url }}">Ні</a>
-</form>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-danger text-white text-center">
+                    <h3 class="fw-bold">⚠ Видалити статтю?</h3>
+                </div>
+                <div class="card-body text-center">
+                    <p class="fs-5">Ви впевнені, що хочете видалити "<strong>{{ article.title }}</strong>"?</p>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-center gap-3">
+                            <button type="submit" class="btn btn-danger px-4 py-2 fw-bold">🗑 Так, видалити</button>
+                            <a href="{{ article.get_absolute_url }}" class="btn btn-secondary px-4 py-2 fw-bold">❌ Скасувати</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
