@@ -14,8 +14,6 @@ class ArticleListView(ListView):
     context_object_name = 'articles'
     paginate_by = 5
 
-    def get_queryset(self):
-        return Article.objects.filter(status='published').order_by('-created_at')
 
 class ArticleDetailView(DetailView):
     model = Article
