@@ -3,9 +3,29 @@
 {% block title %}Профіль{% endblock %}
 
 {% block content %}
-<h1>Профіль</h1>
-<p>Ім'я користувача: {{ user.username }}</p>
-<p>Email: {{ user.email }}</p>
-<p>Біографія: {{ user.bio }}</p>
-<a href="#">Редагувати</a>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg p-4">
+                <div class="card-body text-center">
+                    <h2 class="card-title mb-4">👤 Профіль</h2>
+                    
+                    <ul class="list-group list-group-flush text-start">
+                        <li class="list-group-item"><strong>Ім'я користувача:</strong> {{ user.username }}</li>
+                        <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+                        <li class="list-group-item"><strong>Біографія:</strong> {{ user.bio|default:"Немає інформації" }}</li>
+                    </ul>
+
+                    <a href="#" class="btn btn-primary mt-3 w-100">✏️ Редагувати</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 10px;
+    }
+</style>
 {% endblock %}
